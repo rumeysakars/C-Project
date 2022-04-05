@@ -1,0 +1,269 @@
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+int file_number=1;
+
+string IntToStr(int n) {
+    stringstream result;
+    result<<n;
+    return result.str();
+    }
+
+void add_error(string name){
+    
+	int number_of_device=1;
+	ofstream device_error;
+	int Number_of_files=number_of_device;
+	string filename;
+	int no_error;
+	filename="Device " + IntToStr(file_number) + " - "+ name + ".txt";
+	file_number++;
+	cout<<"Enter the number of errors:";
+	cin>>no_error;	
+	for (int y=0;y<no_error;y++){
+		fflush(stdin);
+		string error;
+		cout<<"Enter the error:";
+		getline(cin,error);
+		device_error.open(filename.c_str(),ios::app);
+		device_error<<error<<endl;
+		device_error.close();		
+	}    
+}
+	
+int main(){
+	string a="Infusion Pump";
+	add_error(a);
+	return 0;
+}	
+
+% Add-Error to a spesific device with it's name function
+#include <bits/stdc++.h>
+#include <string>
+#include <fstream>
+#include<cstdlib>
+#include<conio.h>
+#include<time.h>
+#include<iomanip>
+using namespace std;
+int authority;
+
+int compare(string person){
+	authority =0;
+	fstream clearance1;
+	fstream clearance2;
+	fstream clearance3;
+	clearance1.open("FirstLevelAccess.txt",ios::in);
+	clearance2.open("SecondLevelAccess.txt",ios::in);
+	clearance3.open("ThirdLevelAccess.txt",ios::in);
+	string line;
+	if (clearance1.is_open()&& clearance2.is_open()){
+		while (getline(clearance1,line)){
+			if(person.compare(line)==0){
+				authority=1;
+				break;
+			}			
+		}
+		while (getline(clearance2,line)){
+			if (person.compare(line)==0){
+				authority=2;
+				break;
+			}
+		}
+		while (getline(clearance3,line)){
+			if (person.compare(line)==0){
+				authority=3;
+				break;
+			}
+		}
+		clearance1.close();
+		clearance2.close();
+		clearance3.close();
+		return authority;
+	}
+	else{
+		cout<<"Error while opening files.";
+		return 0;
+	}
+}
+int login(){
+	string password ="";
+	char ch;
+	string username;
+	cout<<"\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t    DEVICE EMERGENCY SYSTEM \n\n";
+	cout<<"\t\t\t\t\t------------------------------";
+	cout<<"\n\t\t\t\t\t\t     LOGIN \n";	
+	cout<<"\t\t\t\t\t------------------------------\n\n";	
+	cout << "\t\t\t\t\tEnter Username: ";
+	cin>>username;
+	cout<<"\t\t\t\t\t------------------------------\n\n";	
+	cout << "\t\t\t\t\tEnter Password: ";
+	ch = _getch();
+	while(ch!=13){
+    	password.push_back(ch);
+    	cout << "*";
+    	ch = _getch();
+	}
+	string account=username+password;
+	int clearance=compare (account);
+   
+	if(clearance==1){
+    	cout << "\n\n\t\t\t\t\t\t\t\tAccess Granted! \n";
+    	cout << "\n\n\t\t\t\t\t\t\t\tWelcome Admin! \n";
+    	system("PAUSE");
+    	system ("CLS");
+	}
+	else if (clearance==2) {
+		cout << "\n\n\t\t\t\t\t\t\t\tAccess Granted! \n";
+		cout << "\n\n\t\t\t\t\t\t\t\tWelcome Technician! \n";
+		system("PAUSE");
+    	system ("CLS");
+	}
+	else if (clearance==3){
+		cout << "\n\n\t\t\t\t\t\t\t\tAccess Granted! \n";
+		cout << "\n\n\t\t\t\t\t\t\t\t   Welcome! \n";
+		system("PAUSE");
+    	system ("CLS");
+	}
+	else{
+    	cout << "\n\n\t\t\t\t\t\t\tAccess Denied...\n\t\t\t\t\t\t\tPlease Try Again\n\n";
+    	system("PAUSE");
+		system("CLS");
+    	login();
+   }
+}
+
+int main(){	
+	login ();
+	
+	return 0;
+}
+
+
+
+int compare(string account){
+	int authority =0;
+	fstream clearance1;
+	fstream clearance2;
+	clearance1.open("FirstLevelAccess.txt",ios::in);
+	clearance2.open("SecondLevelAccess.txt",ios::in);
+	string line;
+	if (clearance1.is_open()&& clearance2.is_open()){
+		while (getline(clearance1,line)){
+			if(account.compare(line)==0){
+				authority=1;
+				break;
+			}			
+		}
+		while (getline(clearance2,line)){
+			if (account.compare(line)==0){
+				authority=2;
+				break;
+			}
+		}
+		clearance1.close();
+		clearance2.close();
+		return authority;
+	}
+
+	else{
+		cout<<"Error while opening files.";
+		return 0;
+	}
+}
+
+void addNewUser(string user){
+	
+	fstream clearance1;
+	fstream clearance2;
+	int a;
+	clearance1.open("FirstLevelAccess.txt",ios::app);
+	clearance2.open("SecondLevelAccess.txt",ios::app);
+	cout<<"Which user's authoriation type who you wanted to add (1 or 2):";
+	cin>>a;
+	if (a!=1 && a!=2){
+		cout<<"Invalid value. Enter the user authorization as 1 or 2:";
+		cin>>a;
+	}
+	else if (a==1){
+		clearance1<<endl<<user;
+	}
+	else if (a==2){
+		clearance2<<endl<<user;
+	}
+	clearance1.close();
+	clearance2.close(); 
+}
+
+
+void deleteUser(string userdlt){
+	ifstream clearance1;
+	ifstream clearance2;
+	clearance1.open("FirstLevelAccess.txt");
+	clearance2.open("SecondLevelAccess.txt");
+	ofstream newclearance1;
+	ofstream newclearance2;
+	newclearance1.open("NewFirstLevelAccess.txt");
+	newclearance2.open("NewSecondLevelAccess.txt");
+	string line;
+	while (getline(clearance1,line)){
+		if(line!=userdlt)
+			newclearance1<<line<<endl;
+	}
+	while (getline(clearance2,line)){
+		if (line!=userdlt)
+			newclearance2<<line<<endl;
+	}
+	clearance1.close();
+	clearance2.close();
+	newclearance1.close();
+	newclearance2.close();
+	remove("FirstLevelAccess.txt");
+	remove("SecondLevelAccess.txt");
+	rename("NewFirstLevelAccess.txt","FirstLevelAccess.txt");
+	rename("NewSecondLevelAccess.txt","SecondLevelAccess.txt");
+}
+
+int main (){
+	string a;
+	string b;
+	int yesno1,yesno2;
+	int clearance;
+	string addusername,addpassword,adduser;
+	string addusername1,addpassword1,adduser1;
+	cout<<"Enter your username (or name for normal users):"<<endl;
+	cin>>a;
+	cout<<"Enter your password (not required if you are not authorized):"<<endl;
+	cin>>b;
+	string account=a+b;
+	cout<<account<<endl;
+	cout<<"Would you like to add another person?(1-Yes/0-No)";
+	cin>>yesno1;
+	if (yesno1==1){
+		cout<<"Enter the username of the person:";
+		cin>>addusername;
+		cout<<"Enter the password of this username:";
+		cin>>addpassword;
+		adduser=addusername+addpassword;
+		addNewUser(adduser);
+	}
+	cout <<"Would you like to delete a person? (1-Yes/0-No)";
+	cin>>yesno2;
+	if (yesno2==1){
+		cout<<"Enter the username of the person which will be deleted:";
+		cin>>addusername1;
+		cout<<"Enter the password of this username which will be deleted:";
+		cin>>addpassword1;
+		adduser1=addusername1+addpassword1;
+		deleteUser(adduser1);
+	}
+	clearance=compare (account);
+	cout<<clearance;
+	
+	return 0;
+}
+
